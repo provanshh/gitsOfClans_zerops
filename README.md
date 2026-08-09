@@ -14,7 +14,8 @@
 
 ## 📜 Overview
 
-**Gits of Clans** turns abstract GitHub codebases into navigable, interactive 3D Minecraft villages. Code files become voxel skyscrapers whose height reflects lines of code, directories form town districts, open Pull Requests dock at the harbor as heavily armed pirate galleons, and AI crew members physically edit code in real-time while you approve changes using a Mayor Permit system.
+**Gits of Clans** turns abstract GitHub codebases into navigable, interactive 3D Minecraft villages. Code files become voxel skyscrapers whose height reflects lines of code, directories form town districts, open Pull Requests dock at the harbor as heavily armed pirate galleons, and AI crew members physically edit code in real-time while you approve changes using a Mayor Permit system. 
+#### Demo added for clarity. That will make things very clear and smooth!
 
 ---
 
