@@ -114,8 +114,7 @@ $ cat src/components/App.jsx | wc -l
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/gits-of-clans.git
-cd gits-of-clans
+git clone https://github.com/provanshh/gitsOfClans_zerops.git
 
 # Install backend dependencies
 npm install
