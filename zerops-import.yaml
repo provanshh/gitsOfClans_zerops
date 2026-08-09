@@ -1,0 +1,15 @@
+project:
+  name: repocity
+
+services:
+  # Managed PostgreSQL 16 Database
+  - hostname: db
+    type: postgresql:single@16
+
+  # Node.js 22 Express API Service
+  - hostname: api
+    type: nodejs@22
+
+  # Static Web Service (Vite React Build)
+  - hostname: frontend
+    type: static@latest

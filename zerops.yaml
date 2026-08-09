@@ -1,0 +1,38 @@
+zerops:
+  # 1. PostgreSQL 16 Database Service
+  - setup: db
+    run:
+      base: postgresql@16
+
+  # 2. Node.js 22 Express API Backend Service
+  - setup: api
+    build:
+      base: nodejs@22
+      buildCommands:
+        - cd api && npm install
+      deployFiles:
+        - api
+    run:
+      base: nodejs@22
+      ports:
+        - port: 3000
+          httpSupport: true
+      start: node api/index.js
+      envVariables:
+        DATABASE_URL: ${db_connectionString}
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
+        ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+
+  # 3. Static Vite React Frontend Service
+  - setup: frontend
+    build:
+      base: nodejs@22
+      buildCommands:
+        - cd frontend && npm install && npm run build
+      deployFiles:
+        - frontend/dist/~
+    run:
+      base: static
+      ports:
+        - port: 80
+          httpSupport: true
