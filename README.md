@@ -1,8 +1,8 @@
 # ⚔️ GITS OF CLANS
 
 > **Transform GitHub Repositories into Living 3D Minecraft Villages with AI-Powered Crew Builders**
-### 🚨Though fully working on: https://frontend-2e76.prg1.zerops.app 
-### If not working please find it on: https://gits-of-clans-zerops.vercel.app
+#### 👉Though fully working on: https://frontend-2e76.prg1.zerops.app 
+#### 👉If not working please find it on: https://gits-of-clans-zerops.vercel.app
 
 ![Gits of Clans Banner](https://img.shields.io/badge/Minecraft-3D%20Repository%20Engine-4CAF35?style=for-the-badge&logo=minecraft&logoColor=white)
 ![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)
