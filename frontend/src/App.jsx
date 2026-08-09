@@ -6,7 +6,8 @@ import { MayorConsole } from './components/MayorConsole';
 import { CrewModal } from './components/CrewModal';
 import { ApiKeyModal } from './components/ApiKeyModal';
 
-const API_BASE = import.meta.env.DEV ? 'http://localhost:3000' : '';
+// const API_BASE = import.meta.env.DEV ? 'http://localhost:3000' : '';
+const API_BASE = import.meta.env.DEV ? 'http://localhost:3000' : 'https://api-2e76-3000.prg1.zerops.app';
 const WORKING_OPENROUTER_KEY = import.meta.env.VITE_OPENROUTER_API_KEY || '';
 
 const DEFAULT_CREW = {
