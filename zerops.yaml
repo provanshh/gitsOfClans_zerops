@@ -20,7 +20,7 @@ zerops:
       start: node api/index.js
       envVariables:
         DATABASE_URL: ${db_connectionString}
-        GITHUB_TOKEN: ${GITHUB_TOKEN}
+        GITHUB_TOKEN: ${GITHUB_PAT}
         ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
 
   # 3. Static Vite React Frontend Service
