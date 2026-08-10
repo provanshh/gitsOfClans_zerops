@@ -37,6 +37,48 @@ $ cat src/components/App.jsx | wc -l
 | **04** | **Multi-Repo Complexity** | Comparing microservices or frontend/backend repos requires constant context switching. | **Archipelago Mode**: Floating islands placed side-by-side in one shared ocean for instant architectural comparison. |
 
 ---
+## 💡 The Idea
+
+Gits of Clans started from a simple annoyance: every time I opened a large, unfamiliar GitHub repo, I had no spatial sense of it — just a flat file tree and a scroll bar. Around the same time, reviewing PRs felt like the same problem in a different shape: a wall of diffs with no sense of *scale* or *impact*.
+
+The idea clicked while thinking about how engineering is actually shifting — from writing every line yourself to directing AI agents that write code for you — and realizing none of the tools we use to supervise that work (logs, diffs, PR pages) were built for a world where you're watching multiple agents work at once. I wanted something you could glance at, the way you'd glance at a city skyline, and instantly understand what's being built and what's waiting for review.
+
+The concept — files as buildings sized by lines of code, folders as districts, open PRs as ships waiting to dock, and AI "crews" you dispatch to construct/edit code in real time — is my own, built and iterated on end-to-end by me over this hackathon.
+
+## 🎨 Design Process
+
+The visual direction (Minecraft-meets-Clash-of-Clans aesthetic, the isometric village layout, the pixel-art UI language) was worked out through:
+- Reference moodboarding on **Dribbble** for isometric game UI and voxel-city layouts
+- Design/copy iteration with **ChatGPT** for the visual language, color palette, and UI copy tone
+- Direct visual reference from Minecraft and Clash of Clans building/village aesthetics to guide the 3D asset proportions and color trims
+
+## 🤖 AI Tools Used (Disclosure)
+
+In line with the hackathon's AI-use policy, here's exactly what AI tooling touched this project and where:
+
+- **Antigravity** — used as an in-editor coding agent for scaffolding and iterating on specific implementation pieces: the React Three Fiber building/island/fountain components in `CityCanvas.jsx`, the AI crew dispatch → proposal → stamp-permit flow in `App.jsx`, and live debugging during deployment (tracing a CORS preflight failure, a hardcoded `API_BASE` breaking on Vercel, and a Zerops build DNS timeout down to root cause).
+- **ChatGPT** — used for design/copy direction (see above) and for talking through architecture decisions.
+- **OpenRouter (Claude 3.5 Sonnet / GPT-4o)** — not a build-time tool but a *product feature*: it's the AI engine end users dispatch as their "crew" to propose live code edits inside the app itself.
+
+**What's mine:** the product idea, the system design (voxel-height mapping formula, the PR-as-ship metaphor, the Mayor Permit approval flow), the overall architecture (Express API + Vite/R3F frontend + Postgres, wired through Zerops), and every integration decision — including debugging and understanding every line of the deployment pipeline described below. Antigravity accelerated implementation; it didn't originate the idea or make the architectural calls.
+
+## 🏗️ Why Zerops
+
+When we started building Gits of Clans, we knew the stack would be unusual for a typical hackathon deploy — a Node.js/Express API doing real-time GitHub tree parsing, a Vite + React Three Fiber frontend rendering a full 3D world, and a Postgres layer for persisting city/clan state. Juggling three services across three different platforms felt like exactly the kind of infrastructure overhead we didn't want to deal with mid-hackathon.
+
+Zerops let us define the **entire project — database, API, and frontend — as a single `zerops.yml` and `zerops-import.yaml`** at the root of the repo. One import spun up all three services (PostgreSQL 16, Node.js 22, and a static Vite build) inside one private network, where services talk to each other over internal hostnames instead of us hand-wiring connection strings.
+
+### How Zerops is used in the project
+
+- **Managed PostgreSQL 16** — stores clan/city state without touching a single `CREATE DATABASE` command. Zerops provisions it, and the connection string is injected automatically via `${db_connectionString}`.
+- **Node.js 22 API service** — runs our Express backend that talks to the GitHub REST API and OpenRouter (for AI crew dispatch), built and deployed straight from `zerops.yml`'s `buildCommands` and `start` directives.
+- **Static frontend service** — builds and serves our Vite + React Three Fiber city renderer, with the Vite build output (`frontend/dist`) deployed directly as a static site.
+- **Secret variable management** — `GITHUB_TOKEN` and `ANTHROPIC_API_KEY` are injected as secret env vars at runtime via `${SECRET_NAME}` syntax in `zerops.yml`, so no credentials ever live in the codebase.
+- **Internal service networking** — the API and frontend services communicate over Zerops' private project network, with `db_connectionString` auto-resolved from the PostgreSQL service without manually configuring a connection pool.
+
+Zerops isn't just where we deployed the finished app — it's the backbone that let us treat "database + API + frontend" as *one project* instead of three separate deploy pipelines to babysit.
+
+---
 
 ## 🏗️ System Architecture
 
